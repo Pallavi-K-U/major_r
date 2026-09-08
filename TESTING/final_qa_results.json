@@ -1,0 +1,517 @@
+{
+  "testResults": [
+    {
+      "id": "AUTH-01",
+      "category": "AUTHENTICATION",
+      "desc": "Login with wrong password",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-02",
+      "category": "AUTHENTICATION",
+      "desc": "Login with non-existent email",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-03",
+      "category": "AUTHENTICATION",
+      "desc": "Registration with malformed email",
+      "expected": "HTTP 400",
+      "actual": "HTTP 400 (Invalid email format)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-04",
+      "category": "AUTHENTICATION",
+      "desc": "Registration with password < 8 characters",
+      "expected": "HTTP 400",
+      "actual": "HTTP 400 (Password must be at least 8 characters long)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-05",
+      "category": "AUTHENTICATION",
+      "desc": "Prevent self-assigned ADMIN registration",
+      "expected": "HTTP 400 Access Denied",
+      "actual": "HTTP 400 (ADMIN role cannot be self-assigned through public registration)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-06",
+      "category": "AUTHENTICATION",
+      "desc": "Access protected route without Authorization header",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-07",
+      "category": "AUTHENTICATION",
+      "desc": "Access protected route with forged JWT token",
+      "expected": "HTTP 401",
+      "actual": "HTTP 401",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-08",
+      "category": "AUTHENTICATION",
+      "desc": "Donor attempting to access Admin transactions",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-09",
+      "category": "AUTHENTICATION",
+      "desc": "NGO attempting to access Donor donation endpoint",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AUTH-10",
+      "category": "AUTHENTICATION",
+      "desc": "User modifying another user profile",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-01",
+      "category": "API",
+      "desc": "Malformed JSON payload in request body",
+      "expected": "HTTP 400/handled",
+      "actual": "HTTP 400",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-02",
+      "category": "API",
+      "desc": "Invalid MongoDB ObjectId in URL parameter (CastError)",
+      "expected": "HTTP 400 (Invalid Resource Identifier)",
+      "actual": "HTTP 400 (Invalid Resource Identifier)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-03",
+      "category": "API",
+      "desc": "Non-existent endpoint returns structured 404 JSON",
+      "expected": "HTTP 404 JSON",
+      "actual": "HTTP 404",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-04",
+      "category": "API",
+      "desc": "Project creation with missing description",
+      "expected": "HTTP 400 Description required",
+      "actual": "HTTP 400 (Project description is required)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-05",
+      "category": "API",
+      "desc": "Project creation with negative target amount",
+      "expected": "HTTP 400 Target > 0",
+      "actual": "HTTP 400 (Target amount must be greater than zero)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-06",
+      "category": "API",
+      "desc": "Project creation with end date <= start date",
+      "expected": "HTTP 400 Date validation error",
+      "actual": "HTTP 400 (End date must be strictly after the start date)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "API-07",
+      "category": "API",
+      "desc": "Project creation with milestone sum mismatch",
+      "expected": "HTTP 400 Sum mismatch",
+      "actual": "HTTP 400 (The sum of milestone amounts must exactly equal the project target amount)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "DB-01",
+      "category": "DATABASE",
+      "desc": "Duplicate email registration rejected",
+      "expected": "HTTP 400 Already Registered",
+      "actual": "HTTP 400 (Email is already registered)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "DB-02",
+      "category": "DATABASE",
+      "desc": "NGO B attempting to modify NGO A project",
+      "expected": "HTTP 403 Access Denied",
+      "actual": "HTTP 403 (Access denied: you can only modify your own projects)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "DB-03",
+      "category": "DATABASE",
+      "desc": "Public active project list excludes DRAFT projects",
+      "expected": "DRAFT excluded",
+      "actual": "Found: false",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "DB-04",
+      "category": "DATABASE",
+      "desc": "Lookup non-existent project returns 404",
+      "expected": "HTTP 404 Project not found",
+      "actual": "HTTP 404",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "BC-01",
+      "category": "BLOCKCHAIN",
+      "desc": "Contract config & address integrity",
+      "expected": "Valid Ethereum Address in contract_config.json",
+      "actual": "isAddress: true",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "BC-02",
+      "category": "BLOCKCHAIN",
+      "desc": "Donation on DRAFT project rejected",
+      "expected": "HTTP 400 only allowed on ACTIVE",
+      "actual": "HTTP 400 (Donations are only allowed on ACTIVE projects)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "BC-03",
+      "category": "BLOCKCHAIN",
+      "desc": "Donation on non-existent project rejected",
+      "expected": "HTTP 404 Project not found",
+      "actual": "HTTP 404",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "BC-04",
+      "category": "BLOCKCHAIN",
+      "desc": "Donation with amount <= 0 rejected",
+      "expected": "HTTP 400 Amount > 0",
+      "actual": "HTTP 400 (Donation amount must be greater than zero)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "BC-05",
+      "category": "BLOCKCHAIN",
+      "desc": "Unverified/fake blockchain transaction hash rejected",
+      "expected": "HTTP 400 Verification Failure",
+      "actual": "HTTP 400 (Failed to verify transaction on-chain: )",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-01",
+      "category": "IPFS",
+      "desc": "Upload document request without file rejected",
+      "expected": "HTTP 400 No file uploaded",
+      "actual": "HTTP 400 (No file uploaded)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-02",
+      "category": "IPFS",
+      "desc": "NGO B uploading file to NGO A project rejected",
+      "expected": "HTTP 403 Access Denied",
+      "actual": "HTTP 403 (Access denied: you can only upload documents to your own projects)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-03",
+      "category": "IPFS",
+      "desc": "Unsupported file type (.exe) rejected",
+      "expected": "HTTP 400 Unsupported file type",
+      "actual": "HTTP 400 (Unsupported file type. Only PDF and PNG/JPEG images are allowed.)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-04",
+      "category": "IPFS",
+      "desc": "Authorized valid PDF upload generates valid SHA-256 Qm CID",
+      "expected": "HTTP 201 with Qm CID",
+      "actual": "HTTP 201 (CID: Qm2aYY1WYMAjH3T4FBToK3epzDrShYovHyEUczQsnVCLcu)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-05",
+      "category": "IPFS",
+      "desc": "Download document from IPFS mock gateway returns exact bytes",
+      "expected": "HTTP 200 matching content",
+      "actual": "HTTP 200 (len: 71)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "IPFS-06",
+      "category": "IPFS",
+      "desc": "NGO B attempting to delete NGO A document rejected",
+      "expected": "HTTP 403 Access Denied",
+      "actual": "HTTP 403 (Access denied: you can only delete your own uploaded documents)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-01",
+      "category": "AI",
+      "desc": "Fraud AI inference on valid inputs returns bounded probability and risk level",
+      "expected": "HTTP 200 LOW/MED/HIGH",
+      "actual": "Risk: LOW, Prob: 0",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-02",
+      "category": "AI",
+      "desc": "Fraud AI missing required feature returns 400 validation error",
+      "expected": "HTTP 400 Missing feature",
+      "actual": "HTTP 400 (Missing required feature: 'type')",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-03",
+      "category": "AI",
+      "desc": "Fraud AI non-numeric amount rejected with 400",
+      "expected": "HTTP 400 Type Error",
+      "actual": "HTTP 400 (Validation Error: Feature 'amount' must be a numeric value)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-04",
+      "category": "AI",
+      "desc": "Fraud AI negative amount rejected with 400",
+      "expected": "HTTP 400 Negative amount error",
+      "actual": "HTTP 400 (Validation Error: Transaction 'amount' cannot be negative)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-05",
+      "category": "AI",
+      "desc": "Impact AI report analysis returns structured indicators, score (0-10), and level",
+      "expected": "HTTP 200 HIGH/MED/LOW",
+      "actual": "Level: HIGH, Score: 9.2",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-06",
+      "category": "AI",
+      "desc": "Impact AI empty/whitespace input returns 400",
+      "expected": "HTTP 400 Empty text",
+      "actual": "HTTP 400 (Input text is empty or contains only whitespace)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-07",
+      "category": "AI",
+      "desc": "Impact AI yields deterministic score across repeated runs",
+      "expected": "Identical scores",
+      "actual": "Run 1: 8.4, Run 2: 8.4",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "AI-08",
+      "category": "AI",
+      "desc": "Backend impact analysis endpoint verifies project ownership",
+      "expected": "HTTP 403 Access Denied",
+      "actual": "HTTP 403 (Access denied: you can only analyse your own projects)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-01",
+      "category": "APPLICATION",
+      "desc": "Admin successfully verifies NGO organization",
+      "expected": "HTTP 200 verified=true",
+      "actual": "HTTP 200 (verified: true)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-02",
+      "category": "APPLICATION",
+      "desc": "Donor attempting NGO verification rejected",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-03",
+      "category": "APPLICATION",
+      "desc": "Admin update review with invalid status enum rejected",
+      "expected": "HTTP 400 Invalid review status",
+      "actual": "HTTP 400 (Invalid review status. Must be one of: UNDER_REVIEW, CLEARED, ESCALATED)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-04",
+      "category": "APPLICATION",
+      "desc": "Admin update review on non-existent transaction returns 404",
+      "expected": "HTTP 404 Transaction not found",
+      "actual": "HTTP 404",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-05",
+      "category": "APPLICATION",
+      "desc": "Donor access to E2E integration status route rejected",
+      "expected": "HTTP 403 Forbidden",
+      "actual": "HTTP 403",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "APP-06",
+      "category": "APPLICATION",
+      "desc": "Admin access to E2E integration status route succeeds",
+      "expected": "HTTP 200 with service statuses",
+      "actual": "HTTP 200 (Backend: UP, DB: UP)",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "SEC-01",
+      "category": "SECURITY",
+      "desc": "Password hash excluded from user JSON response on login",
+      "expected": "No passwordHash in response body",
+      "actual": "hasHash: false",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "SEC-02",
+      "category": "SECURITY",
+      "desc": "Password hash excluded from user profile update response",
+      "expected": "No passwordHash in response body",
+      "actual": "hasHash: false",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "SEC-03",
+      "category": "SECURITY",
+      "desc": "User profile update prevents modifying user role attribute",
+      "expected": "Role remains DONOR in database",
+      "actual": "DB Role: DONOR",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "SEC-04",
+      "category": "SECURITY",
+      "desc": "CORS headers restrict access to configured frontend origin",
+      "expected": "Access-Control-Allow-Origin: http://localhost:5173",
+      "actual": "Allow-Origin: http://localhost:5173",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    },
+    {
+      "id": "SEC-05",
+      "category": "SECURITY",
+      "desc": ".gitignore exists and contains .env entries",
+      "expected": ".env present in .gitignore",
+      "actual": "Ignored: true",
+      "status": "PASS",
+      "severity": "None",
+      "fixApplied": "None"
+    }
+  ],
+  "passedCount": 51,
+  "failedCount": 0,
+  "skippedCount": 0
+}
