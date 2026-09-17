@@ -14,6 +14,7 @@ import { uploadDocument, getProjectDocuments, downloadDocument, deleteDocument }
 import { analyseImpact } from './services/aiService.js';
 import multer from 'multer';
 import e2eFlowRouter from './routes/phase10/e2eFlow.js';
+import chatRouter from './routes/chatRoutes.js';
 
 dotenv.config();
 
@@ -100,6 +101,9 @@ app.get('/api/ngo/donations/total', authenticateUser, authorizeRoles('NGO'), get
 
 // Phase 10 End‑to‑End route registration
 app.use('/api/e2e', e2eFlowRouter);
+
+// AI Copilot Chatbot Route
+app.use('/api/chat', chatRouter);
 // Document / IPFS Storage Routes
 app.post('/api/documents', authenticateUser, authorizeRoles('NGO'), upload.single('file'), uploadDocument);
 app.get('/api/projects/:projectId/documents', getProjectDocuments);
@@ -172,6 +176,43 @@ app.post('/api/projects/:id/analyse-impact', authenticateUser, authorizeRoles('N
       success: true,
       message: 'Impact analysis completed successfully',
       impactAnalysis: project.impactAnalysis,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Milestone Release Route (Admin Escrow Tranche Release)
+app.put('/api/projects/:id/milestones/:milestoneIndex/release', authenticateUser, authorizeRoles('ADMIN'), async (req, res, next) => {
+  try {
+    const { id, milestoneIndex } = req.params;
+    const idx = parseInt(milestoneIndex, 10);
+
+    const Project = (await import('./models/project.js')).default;
+    const project = await Project.findById(id);
+
+    if (!project) {
+      return res.status(404).json({ success: false, error: { message: 'Project not found', status: 404 } });
+    }
+
+    if (isNaN(idx) || idx < 0 || idx >= project.milestones.length) {
+      return res.status(400).json({ success: false, error: { message: 'Invalid milestone index', status: 400 } });
+    }
+
+    project.milestones[idx].status = 'RELEASED';
+
+    // If all milestones are released, mark project as COMPLETED
+    const allReleased = project.milestones.every((m) => m.status === 'RELEASED');
+    if (allReleased && project.milestones.length > 0) {
+      project.status = 'COMPLETED';
+    }
+
+    await project.save();
+
+    return res.status(200).json({
+      success: true,
+      message: `Milestone ${idx + 1} marked as RELEASED${allReleased ? ' (Project is now COMPLETED)' : ''}`,
+      project,
     });
   } catch (error) {
     next(error);

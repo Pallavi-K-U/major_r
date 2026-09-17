@@ -33,6 +33,11 @@ const authFetch = async (endpoint, options = {}) => {
 
     const data = await response.json().catch(() => ({}));
 
+    if (response.status === 401 && (data?.error?.message?.includes('Token') || data?.error?.message?.includes('token'))) {
+      setToken(null);
+      localStorage.removeItem('user_profile');
+    }
+
     return {
       ok: response.ok,
       status: response.status,
@@ -231,3 +236,20 @@ export const analyseProjectImpact = async (projectId, text) => {
     body: JSON.stringify({ text }),
   });
 };
+
+// AI Copilot Chatbot API
+export const sendChatMessage = async (message, history = []) => {
+  return authFetch('/chat', {
+    method: 'POST',
+    body: JSON.stringify({ message, history }),
+  });
+};
+
+// Milestone Release API
+export const releaseProjectMilestone = async (projectId, milestoneIndex) => {
+  return authFetch(`/projects/${projectId}/milestones/${milestoneIndex}/release`, {
+    method: 'PUT',
+  });
+};
+
+

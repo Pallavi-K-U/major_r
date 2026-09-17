@@ -158,8 +158,8 @@ export const getOwnProjects = async (req, res, next) => {
 
 export const getActiveProjects = async (req, res, next) => {
   try {
-    // TC-9: DRAFT projects must not be returned in active list
-    const projects = await Project.find({ status: 'ACTIVE' });
+    // Return ACTIVE and COMPLETED projects (exclude DRAFT and SUSPENDED)
+    const projects = await Project.find({ status: { $in: ['ACTIVE', 'COMPLETED'] } });
     return res.status(200).json({ success: true, projects });
   } catch (error) {
     next(error);
